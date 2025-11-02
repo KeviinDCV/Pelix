@@ -27,9 +27,10 @@ export default function RootLayout({
             <div className="flex justify-between items-center h-16 sm:h-20">
               <Link 
                 href="/" 
-                className="text-2xl sm:text-3xl font-bold gradient-text hover:opacity-90 transition-opacity"
+                className="flex items-baseline gap-2 hover:opacity-90 transition-opacity"
               >
-                Pelix
+                <span className="text-2xl sm:text-3xl font-bold gradient-text">Pelix</span>
+                <span className="text-xs sm:text-sm text-gray/60 font-normal">by Kevin</span>
               </Link>
               <nav className="flex items-center gap-3 sm:gap-6">
                 <Link

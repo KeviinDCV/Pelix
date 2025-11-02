@@ -1,27 +1,27 @@
-# 🎬 Pelix
+# Pelix
 
 Una aplicación web moderna para explorar películas usando la API de The Movie Database (TMDB).
 
-## 🚀 Características
+## Características
 
 - **Home**: Muestra películas en cines, populares y próximos estrenos
 - **Detalles de Película**: Información completa con sinopsis, puntuación, géneros y estado
 - **Búsqueda**: Búsqueda instantánea de películas por nombre
 - **Diseño Responsive**: Optimizado para móviles, tablets y desktop
 
-## 🛠️ Stack Tecnológico
+## Stack Tecnológico
 
 - **Next.js 15** - Framework React con App Router
 - **TypeScript** - Tipado estático
 - **Tailwind CSS** - Estilos utilitarios
 - **TMDB API** - Fuente de datos de películas
 
-## 📋 Prerrequisitos
+##  Prerrequisitos
 
 1. Node.js 18+ instalado
 2. Una cuenta en [TMDB](https://www.themoviedb.org/) y una API Key
 
-## 🔧 Instalación
+##  Instalación
 
 1. Clona el repositorio o descarga los archivos
 
@@ -42,7 +42,7 @@ npm run dev
 
 5. Abre [http://localhost:3000](http://localhost:3000) en tu navegador
 
-## 📦 Despliegue en Vercel
+## Despliegue en Vercel
 
 1. Sube tu código a GitHub, GitLab o Bitbucket
 
@@ -52,7 +52,7 @@ npm run dev
 
 4. Vercel desplegará automáticamente tu aplicación
 
-## 📝 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 ├── app/
@@ -71,15 +71,7 @@ npm run dev
     └── tmdb.ts          # Tipos TypeScript
 ```
 
-## 🎯 Próximas Mejoras
-
-- Login y sistema de favoritos
-- Recomendaciones personalizadas
-- Trailer embebido
-- Integración con plataformas de streaming
-- Filtros por género y año
-
-## 📄 Licencia
+## Licencia
 
 Este proyecto es de código abierto y está disponible bajo la licencia MIT.
 
