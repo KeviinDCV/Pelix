@@ -60,6 +60,17 @@ export default function StreamingLinks({ movie }: StreamingLinksProps) {
           .replace(/[^a-z0-9]+/g, "-")
           .replace(/^-+|-+$/g, "");
         
+        // Título normalizado para PelisPlus (sin convertir espacios a +)
+        const pelisPlusTitle = movie.title
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "") // Elimina acentos
+          .trim();
+        
+        // Slug para la.movie (título con guiones + año)
+        const laMovieYear = new Date(movie.release_date).getFullYear();
+        const laMovieSlug = `${movieSlugDash}-${laMovieYear}`;
+        
         // Enlaces de búsqueda en sitios de streaming populares
         const fallbackLinks: StreamingLink[] = [
           {
@@ -69,7 +80,7 @@ export default function StreamingLinks({ movie }: StreamingLinksProps) {
           },
           {
             name: "PelisPlus",
-            url: `https://ww3.pelisplus.to/search/${movieSlugDash}`,
+            url: `https://ww3.pelisplus.to/search/${encodeURIComponent(pelisPlusTitle)}`,
             icon: "pelisplus",
           },
           {
@@ -81,6 +92,11 @@ export default function StreamingLinks({ movie }: StreamingLinksProps) {
             name: "GnulaHD",
             url: `https://ww3.gnulahd.nu/?s=${movieSlug}`,
             icon: "gnulahd",
+          },
+          {
+            name: "La.Movie",
+            url: `https://la.movie/peliculas/${laMovieSlug}`,
+            icon: "la-movie",
           },
           {
             name: "Buscar en Google",
@@ -109,6 +125,8 @@ export default function StreamingLinks({ movie }: StreamingLinksProps) {
       case "pelicinehd":
         return <HiOutlinePlay className="w-5 h-5" />;
       case "gnulahd":
+        return <HiFilm className="w-5 h-5" />;
+      case "la-movie":
         return <HiFilm className="w-5 h-5" />;
       case "google":
         return <HiSearch className="w-5 h-5" />;
