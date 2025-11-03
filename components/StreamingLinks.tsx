@@ -60,14 +60,61 @@ export default function StreamingLinks({ movie }: StreamingLinksProps) {
           .replace(/[^a-z0-9]+/g, "-")
           .replace(/^-+|-+$/g, "");
         
-        // Título normalizado para PelisPlus (sin convertir espacios a +)
-        const pelisPlusTitle = movie.title
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "") // Elimina acentos
-          .trim();
+        // Función genérica para optimizar títulos (maneja variaciones de nombres)
+        const getOptimizedSearchTitle = (
+          title: string, 
+          specificMappings?: Record<string, string>
+        ): string => {
+          // Mapeo de títulos compartidos (comunes a ambas plataformas)
+          const sharedMappings: Record<string, string> = {
+            "el conjuro 4": "expediente warren",
+            "conjuro 4": "expediente warren",
+            "el conjuro 4 ultimos ritos": "expediente warren ultimo rito",
+            "ultimos ritos": "expediente warren ultimo rito",
+            "the conjuring last rites": "conjuring last rites",
+            "conjuring last rites": "conjuring last rites",
+            "the conjuring": "conjuring",
+          };
+          
+          // Combinar mapeos compartidos con específicos
+          const allMappings = { ...sharedMappings, ...(specificMappings || {}) };
+          
+          let normalizedTitle = title
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "") // Elimina acentos
+            .trim();
+          
+          // Buscar si hay un mapeo específico
+          for (const [key, value] of Object.entries(allMappings)) {
+            if (normalizedTitle.includes(key)) {
+              return value;
+            }
+          }
+          
+          // Remover números de secuela comunes (2, 3, 4, etc.) que pueden confundir
+          normalizedTitle = normalizedTitle
+            .replace(/\b(parte|part)\s+\d+\b/gi, "")
+            .replace(/\b\d+\s*:\s*/g, "") // Remueve "4:" o "3:"
+            .replace(/\b\d+\s*$/g, "") // Remueve números al final
+            .replace(/\s+/g, " ") // Normaliza espacios múltiples
+            .trim();
+          
+          // Extraer palabras clave importantes (remover artículos y palabras muy comunes)
+          const words = normalizedTitle.split(/\s+/);
+          const stopWords = ["el", "la", "los", "las", "un", "una", "de", "del", "y", "en", "a", "the"];
+          const keywords = words.filter(word => 
+            word.length > 2 && !stopWords.includes(word)
+          );
+          
+          // Si después de filtrar tenemos palabras clave, usarlas, sino usar el título completo
+          return keywords.length > 0 ? keywords.join(" ") : normalizedTitle;
+        };
         
-        // Slug para la.movie (título con guiones + año)
+        // Título optimizado para PelisPlus
+        const pelisPlusTitle = getOptimizedSearchTitle(movie.title);
+        
+        // Slug para La.Movie (título con guiones + año) - formato directo
         const laMovieYear = new Date(movie.release_date).getFullYear();
         const laMovieSlug = `${movieSlugDash}-${laMovieYear}`;
         
