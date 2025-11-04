@@ -1,10 +1,9 @@
-import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { getUserByEmail } from "@/lib/db";
 import bcrypt from "bcryptjs";
 import NextAuth from "next-auth";
 
-export const authOptions: NextAuthOptions = {
+export const authOptions = {
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -17,6 +16,9 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
+        const email = String(credentials.email);
+        const password = String(credentials.password);
+
         // Si no hay POSTGRES_URL configurado, retornar null silenciosamente
         if (!process.env.POSTGRES_URL) {
           console.warn("POSTGRES_URL no configurado. La autenticación no funcionará.");
@@ -24,13 +26,13 @@ export const authOptions: NextAuthOptions = {
         }
 
         try {
-          const user = await getUserByEmail(credentials.email);
+          const user = await getUserByEmail(email);
           if (!user) {
             return null;
           }
 
           const isPasswordValid = await bcrypt.compare(
-            credentials.password,
+            password,
             user.password_hash
           );
 
@@ -56,16 +58,16 @@ export const authOptions: NextAuthOptions = {
     error: "/auth/login",
   },
   session: {
-    strategy: "jwt",
+    strategy: "jwt" as const,
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({ token, user }: { token: any; user?: any }) {
       if (user) {
         token.id = user.id;
       }
       return token;
     },
-    async session({ session, token }) {
+    async session({ session, token }: { session: any; token: any }) {
       if (session.user && token.id) {
         session.user.id = token.id as string;
       }
