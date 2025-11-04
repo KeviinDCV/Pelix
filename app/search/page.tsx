@@ -3,12 +3,14 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useSession } from "next-auth/react";
 import { HiOutlineSearch } from "react-icons/hi";
 import MovieCard from "@/components/MovieCard";
 import MovieCardSkeleton from "@/components/MovieCardSkeleton";
 import type { Movie } from "@/types/tmdb";
 
 export default function SearchPage() {
+  const { data: session } = useSession();
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(false);
@@ -31,6 +33,20 @@ export default function SearchPage() {
         if (response.ok) {
           const data = await response.json();
           setResults(data.results || []);
+          
+          // Guardar en historial si el usuario está autenticado
+          if (session?.user?.id && query.trim()) {
+            try {
+              await fetch("/api/search-history", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ query: query.trim() }),
+              });
+            } catch (error) {
+              // Silencioso, no mostrar error si falla el guardado del historial
+              console.error("Error al guardar historial:", error);
+            }
+          }
         } else {
           setResults([]);
         }
@@ -43,7 +59,7 @@ export default function SearchPage() {
     }, 500); // Debounce de 500ms
 
     return () => clearTimeout(timeoutId);
-  }, [query]);
+  }, [query, session]);
 
   return (
     <main className="min-h-screen bg-black py-12">
@@ -127,4 +143,3 @@ export default function SearchPage() {
     </main>
   );
 }
-

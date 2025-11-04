@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Toaster } from "react-hot-toast";
 import { HiHome, HiOutlineSearch, HiOutlineFilm } from "react-icons/hi";
+import AuthProvider from "@/components/AuthProvider";
+import UserMenu from "@/components/UserMenu";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -22,46 +24,48 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className="antialiased">
-        <nav className="sticky top-0 z-50 bg-black/95 backdrop-blur-sm border-b border-flame/20">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16 sm:h-20">
-              <Link 
-                href="/" 
-                className="flex items-baseline gap-2 hover:opacity-90 transition-opacity"
-              >
-                <span className="text-2xl sm:text-3xl font-bold gradient-text">Pelix</span>
-                <span className="text-xs sm:text-sm text-gray/60 font-normal">by Kevin</span>
-              </Link>
-              <nav className="flex items-center gap-3 sm:gap-6">
-                <Link
-                  href="/"
-                  className="text-lavenderBlush/80 hover:text-sunset transition-colors font-medium flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base"
-                  aria-label="Inicio"
+        <AuthProvider>
+          <nav className="sticky top-0 z-50 bg-black/95 backdrop-blur-sm border-b border-flame/20">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="flex justify-between items-center h-16 sm:h-20">
+                <Link 
+                  href="/" 
+                  className="flex items-baseline gap-2 hover:opacity-90 transition-opacity"
                 >
-                  <HiHome className="w-5 h-5" />
-                  <span className="hidden sm:inline">Inicio</span>
+                  <span className="text-2xl sm:text-3xl font-bold gradient-text">Pelix</span>
+                  <span className="text-xs sm:text-sm text-gray/60 font-normal">by Kevin</span>
                 </Link>
-                <Link
-                  href="/genres"
-                  className="text-lavenderBlush/80 hover:text-sunset transition-colors font-medium flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base"
-                  aria-label="Categorías"
-                >
-                  <HiOutlineFilm className="w-5 h-5" />
-                  <span className="hidden sm:inline">Categorías</span>
-                </Link>
-                <Link
-                  href="/search"
-                  className="text-lavenderBlush/80 hover:text-sunset transition-colors font-medium flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base"
-                  aria-label="Buscar"
-                >
-                  <HiOutlineSearch className="w-5 h-5" />
-                  <span className="hidden sm:inline">Buscar</span>
-                </Link>
-              </nav>
+                <div className="flex items-center gap-3 sm:gap-6">
+                  <Link
+                    href="/"
+                    className="text-lavenderBlush/80 hover:text-sunset transition-colors font-medium flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base"
+                    aria-label="Inicio"
+                  >
+                    <HiHome className="w-5 h-5" />
+                    <span className="hidden sm:inline">Inicio</span>
+                  </Link>
+                  <Link
+                    href="/genres"
+                    className="text-lavenderBlush/80 hover:text-sunset transition-colors font-medium flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base"
+                    aria-label="Categorías"
+                  >
+                    <HiOutlineFilm className="w-5 h-5" />
+                    <span className="hidden sm:inline">Categorías</span>
+                  </Link>
+                  <Link
+                    href="/search"
+                    className="text-lavenderBlush/80 hover:text-sunset transition-colors font-medium flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base"
+                    aria-label="Buscar"
+                  >
+                    <HiOutlineSearch className="w-5 h-5" />
+                    <span className="hidden sm:inline">Buscar</span>
+                  </Link>
+                  <UserMenu />
+                </div>
+              </div>
             </div>
-          </div>
-        </nav>
-        {children}
+          </nav>
+          {children}
         <Toaster
           position="top-right"
           toastOptions={{
@@ -100,6 +104,7 @@ export default function RootLayout({
             </p>
           </div>
         </footer>
+        </AuthProvider>
       </body>
     </html>
   );
