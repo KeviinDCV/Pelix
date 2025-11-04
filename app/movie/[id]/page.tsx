@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import StreamingLinks from "@/components/StreamingLinks";
 import MovieTrailer from "@/components/MovieTrailer";
 import MovieStatus from "@/components/MovieStatus";
+import MovieReviews from "@/components/MovieReviews";
 
 interface MoviePageProps {
   params: Promise<{ id: string }>;
@@ -134,6 +135,11 @@ export default async function MoviePage({ params }: MoviePageProps) {
                 Ver en Streaming
               </h2>
               <StreamingLinks movie={movie} />
+            </div>
+
+            {/* Reviews */}
+            <div className="pt-4 sm:pt-6 border-t border-flame/20">
+              <MovieReviews movieId={movieId} />
             </div>
 
             {/* Additional Info */}

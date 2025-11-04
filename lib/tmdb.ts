@@ -1,4 +1,4 @@
-import type { Movie, MoviesResponse, MovieDetails, Genre, VideosResponse } from "@/types/tmdb";
+import type { Movie, MoviesResponse, MovieDetails, Genre, VideosResponse, ReviewsResponse } from "@/types/tmdb";
 
 const TMDB_BASE_URL = "https://api.themoviedb.org/3";
 const TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p";
@@ -83,6 +83,10 @@ export async function getMoviesByGenre(genreId: number, page: number = 1): Promi
 
 export async function getMovieVideos(id: number): Promise<VideosResponse> {
   return fetchTMDB<VideosResponse>(`/movie/${id}/videos`);
+}
+
+export async function getMovieReviews(id: number, page: number = 1): Promise<ReviewsResponse> {
+  return fetchTMDB<ReviewsResponse>(`/movie/${id}/reviews?page=${page}`);
 }
 
 export function getMovieStatus(movie: Movie): string {
