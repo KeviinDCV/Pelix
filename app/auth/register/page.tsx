@@ -63,14 +63,14 @@ export default function RegisterPage() {
   };
 
   return (
-    <main className="min-h-screen bg-black py-6 sm:py-8 md:py-12 flex items-center justify-center px-4 sm:px-6">
+    <main className="flex-1 bg-black pt-8 sm:pt-12 md:pt-16 pb-6 sm:pb-8 md:pb-12 flex items-center justify-center px-4 sm:px-6">
       <div className="w-full max-w-md">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-black/50 border border-flame/20 rounded-xl sm:rounded-2xl p-5 sm:p-6 md:p-8 backdrop-blur-sm"
+          className="bg-black/50 border border-flame/20 rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 backdrop-blur-sm"
         >
-          <div className="mb-6 sm:mb-8">
+          <div className="mb-4 sm:mb-5">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold gradient-text mb-2 sm:mb-3 text-center">
               Crear Cuenta
             </h1>

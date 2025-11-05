@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className="antialiased">
+      <body className="antialiased flex flex-col min-h-screen">
         <AuthProvider>
           <nav className="sticky top-0 z-50 bg-black/95 backdrop-blur-sm border-b border-flame/20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -65,7 +65,9 @@ export default function RootLayout({
               </div>
             </div>
           </nav>
-          {children}
+          <div className="flex-1">
+            {children}
+          </div>
         <Toaster
           position="top-right"
           toastOptions={{
@@ -89,7 +91,7 @@ export default function RootLayout({
             },
           }}
         />
-        <footer className="border-t border-flame/20 mt-20 py-8">
+        <footer className="border-t border-flame/20 mt-auto py-6 sm:py-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <p className="text-gray text-sm">
               Powered by{" "}
