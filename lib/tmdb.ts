@@ -59,6 +59,11 @@ export async function getUpcomingMovies(): Promise<Movie[]> {
   return data.results;
 }
 
+export async function getTopRatedMovies(): Promise<Movie[]> {
+  const data = await fetchTMDB<MoviesResponse>("/movie/top_rated");
+  return data.results;
+}
+
 export async function getMovieDetails(id: number): Promise<MovieDetails> {
   return fetchTMDB<MovieDetails>(`/movie/${id}`);
 }
