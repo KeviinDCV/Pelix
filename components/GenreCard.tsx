@@ -19,11 +19,11 @@ export default function GenreCard({ genre, index }: GenreCardProps) {
     >
       <Link
         href={`/genres/${genre.id}`}
-        className="group relative bg-black/50 border-2 border-flame/20 rounded-lg sm:rounded-xl p-4 sm:p-5 md:p-6 hover:border-sunset transition-all duration-300 card-hover overflow-hidden block"
+        className="group relative bg-black/50 border-2 border-flame/20 rounded-lg sm:rounded-xl p-4 sm:p-5 md:p-6 hover:border-sunset transition-all duration-300 card-hover overflow-hidden block h-20 sm:h-24 md:h-28 flex items-center justify-center"
       >
         <div className="absolute inset-0 bg-gradient-to-br from-flame/10 via-transparent to-sunset/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        <div className="relative z-10">
-          <h3 className="text-base sm:text-lg md:text-xl font-bold text-lavenderBlush group-hover:text-sunset transition-colors duration-300 text-center sm:text-left">
+        <div className="relative z-10 w-full">
+          <h3 className="text-base sm:text-lg md:text-xl font-bold text-lavenderBlush group-hover:text-sunset transition-colors duration-300 text-center break-words">
             {genre.name}
           </h3>
         </div>

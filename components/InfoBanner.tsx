@@ -15,7 +15,7 @@ export default function InfoBanner() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
-        className="bg-gradient-to-r from-flame/20 to-sunset/20 border-b border-flame/30 backdrop-blur-sm"
+        className="relative z-30 bg-gradient-to-r from-flame/20 to-sunset/20 border-b border-flame/30 backdrop-blur-sm"
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
           <div className="flex items-start gap-3 sm:gap-4">

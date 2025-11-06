@@ -106,7 +106,7 @@ export default function HeroBanner({ movies }: HeroBannerProps) {
   }, [currentIndex, isAutoPlaying]);
 
   return (
-    <div className="relative h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-[85vh] min-h-[400px] sm:min-h-[500px] md:min-h-[600px] overflow-hidden">
+    <div className="relative z-20 h-[60vh] sm:h-[70vh] md:h-[75vh] lg:h-[65vh] min-h-[400px] sm:min-h-[500px] md:min-h-[600px] overflow-hidden">
       <AnimatePresence initial={false} custom={direction}>
         <motion.div
           key={currentIndex}
@@ -162,7 +162,7 @@ export default function HeroBanner({ movies }: HeroBannerProps) {
                 </Link>
 
                 {/* Título */}
-                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-lavenderBlush mb-3 sm:mb-4 md:mb-5 line-clamp-2">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold text-lavenderBlush mb-3 sm:mb-4 md:mb-5 line-clamp-2">
                   {currentMovie.title}
                   {releaseYear && (
                     <span className="text-gray/70 font-normal ml-2 sm:ml-3">

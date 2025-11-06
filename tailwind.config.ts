@@ -12,7 +12,7 @@ const config: Config = {
         black: "#000000",
         flame: "#cf5c36",
         lavenderBlush: "#eee5e9",
-        gray: "#7c7c7c",
+        gray: "#9a9a9a",
         sunset: "#efc88b",
         background: "var(--background)",
         foreground: "var(--foreground)",
