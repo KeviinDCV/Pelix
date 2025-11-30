@@ -96,7 +96,7 @@ export default function SearchPage() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
+            className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8"
           >
             {Array.from({ length: 8 }).map((_, i) => (
               <MovieCardSkeleton key={i} />
@@ -121,7 +121,7 @@ export default function SearchPage() {
               </h2>
               <span className="text-sm text-white/40">({results.length})</span>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 pb-20">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-8 pb-20">
               {results.map((movie, index) => (
                 <motion.div
                   key={movie.id}
