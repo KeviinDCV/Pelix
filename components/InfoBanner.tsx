@@ -15,26 +15,24 @@ export default function InfoBanner() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
-        className="relative z-30 bg-gradient-to-r from-flame/20 to-sunset/20 border-b border-flame/30 backdrop-blur-sm"
+        className="fixed top-20 left-0 right-0 z-40 mx-6 md:mx-12"
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
-          <div className="flex items-start gap-3 sm:gap-4">
-            <HiInformationCircle className="w-5 h-5 sm:w-6 sm:h-6 text-sunset flex-shrink-0 mt-0.5" />
+        <div className="bg-secondary/80 backdrop-blur-md border border-white/10 p-4">
+          <div className="flex items-start gap-4">
+            <HiInformationCircle className="w-5 h-5 text-white/60 flex-shrink-0 mt-0.5" />
             <div className="flex-1">
-              <p className="text-lavenderBlush text-sm sm:text-base leading-relaxed">
-                <span className="font-semibold text-sunset">Importante:</span> Esta página{" "}
-                <span className="font-medium">no almacena películas</span>. Solo te ayudamos a{" "}
-                encontrar enlaces a otras páginas donde puedes verlas. Ten cuidado con los anuncios y{" "}
-                <span className="font-medium">no descargues archivos</span> ni{" "}
-                <span className="font-medium">compartas información personal</span> en esos sitios.
+              <p className="text-sm text-white/80 leading-relaxed">
+                <span className="font-medium text-white">Aviso:</span> Esta página{" "}
+                no almacena películas. Solo te ayudamos a encontrar enlaces externos.{" "}
+                <span className="text-white/60">Ten cuidado con los anuncios en esos sitios.</span>
               </p>
             </div>
             <button
               onClick={() => setIsVisible(false)}
-              className="text-gray hover:text-lavenderBlush transition-colors flex-shrink-0 p-1 hover:bg-flame/20 rounded"
+              className="text-white/40 hover:text-white transition-colors flex-shrink-0 p-1 hover:bg-white/10"
               aria-label="Cerrar aviso"
             >
-              <HiX className="w-5 h-5 sm:w-6 sm:h-6" />
+              <HiX className="w-5 h-5" />
             </button>
           </div>
         </div>

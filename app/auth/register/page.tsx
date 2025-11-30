@@ -63,29 +63,29 @@ export default function RegisterPage() {
   };
 
   return (
-    <main className="flex-1 bg-black pt-8 sm:pt-12 md:pt-16 pb-6 sm:pb-8 md:pb-12 flex items-center justify-center px-4 sm:px-6">
+    <div className="min-h-screen bg-background flex items-center justify-center px-6">
       <div className="w-full max-w-md">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-black/50 border border-flame/20 rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 backdrop-blur-sm"
+          className="bg-secondary/10 border border-white/10 p-8"
         >
-          <div className="mb-4 sm:mb-5">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold gradient-text mb-2 sm:mb-3 text-center">
-              Crear Cuenta
+          <div className="mb-8 text-center">
+            <h1 className="text-3xl font-display font-bold text-white mb-2">
+              CREAR CUENTA
             </h1>
-            <p className="text-gray text-center text-sm sm:text-base">
-              Únete a Pelix y guarda tus películas favoritas
+            <p className="text-white/60 text-sm">
+              Únete a PELIX y guarda tus favoritas
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label htmlFor="email" className="block text-lavenderBlush mb-2 text-xs sm:text-sm font-medium">
+              <label htmlFor="email" className="block text-white/80 mb-2 text-sm font-medium">
                 Email
               </label>
               <div className="relative">
-                <HiMail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray" />
+                <HiMail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
                 <input
                   id="email"
                   type="email"
@@ -93,18 +93,18 @@ export default function RegisterPage() {
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
                   autoComplete="email"
-                  className="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 text-sm sm:text-base bg-black/50 border border-flame/20 rounded-lg text-lavenderBlush placeholder-gray focus:outline-none focus:border-sunset focus:ring-2 focus:ring-sunset/20 transition-all"
+                  className="w-full pl-10 pr-4 py-3 bg-secondary/20 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:border-white/30 transition-colors"
                   placeholder="tu@email.com"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="username" className="block text-lavenderBlush mb-2 text-xs sm:text-sm font-medium">
+              <label htmlFor="username" className="block text-white/80 mb-2 text-sm font-medium">
                 Nombre de usuario
               </label>
               <div className="relative">
-                <HiUser className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray" />
+                <HiUser className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
                 <input
                   id="username"
                   type="text"
@@ -113,18 +113,18 @@ export default function RegisterPage() {
                   required
                   minLength={3}
                   autoComplete="username"
-                  className="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 text-sm sm:text-base bg-black/50 border border-flame/20 rounded-lg text-lavenderBlush placeholder-gray focus:outline-none focus:border-sunset focus:ring-2 focus:ring-sunset/20 transition-all"
+                  className="w-full pl-10 pr-4 py-3 bg-secondary/20 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:border-white/30 transition-colors"
                   placeholder="usuario123"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-lavenderBlush mb-2 text-xs sm:text-sm font-medium">
+              <label htmlFor="password" className="block text-white/80 mb-2 text-sm font-medium">
                 Contraseña
               </label>
               <div className="relative">
-                <HiLockClosed className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray" />
+                <HiLockClosed className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
                 <input
                   id="password"
                   type="password"
@@ -133,18 +133,18 @@ export default function RegisterPage() {
                   required
                   minLength={6}
                   autoComplete="new-password"
-                  className="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 text-sm sm:text-base bg-black/50 border border-flame/20 rounded-lg text-lavenderBlush placeholder-gray focus:outline-none focus:border-sunset focus:ring-2 focus:ring-sunset/20 transition-all"
+                  className="w-full pl-10 pr-4 py-3 bg-secondary/20 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:border-white/30 transition-colors"
                   placeholder="••••••••"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="confirmPassword" className="block text-lavenderBlush mb-2 text-xs sm:text-sm font-medium">
+              <label htmlFor="confirmPassword" className="block text-white/80 mb-2 text-sm font-medium">
                 Confirmar contraseña
               </label>
               <div className="relative">
-                <HiLockClosed className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray" />
+                <HiLockClosed className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
                 <input
                   id="confirmPassword"
                   type="password"
@@ -152,7 +152,7 @@ export default function RegisterPage() {
                   onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                   required
                   autoComplete="new-password"
-                  className="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 text-sm sm:text-base bg-black/50 border border-flame/20 rounded-lg text-lavenderBlush placeholder-gray focus:outline-none focus:border-sunset focus:ring-2 focus:ring-sunset/20 transition-all"
+                  className="w-full pl-10 pr-4 py-3 bg-secondary/20 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:border-white/30 transition-colors"
                   placeholder="••••••••"
                 />
               </div>
@@ -161,21 +161,21 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2.5 sm:py-3 text-sm sm:text-base bg-gradient-to-r from-flame to-sunset text-black font-semibold rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed mt-6 sm:mt-8"
+              className="w-full py-4 bg-white text-black font-medium hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-2"
             >
-              {loading ? "Creando cuenta..." : "Crear Cuenta"}
+              {loading ? "CREANDO..." : "REGISTRARSE"}
             </button>
           </form>
 
-          <p className="text-gray text-center mt-5 sm:mt-6 text-xs sm:text-sm">
+          <p className="text-white/60 text-center mt-6 text-sm">
             ¿Ya tienes una cuenta?{" "}
-            <Link href="/auth/login" className="text-sunset hover:text-flame transition-colors font-medium">
+            <Link href="/auth/login" className="text-white hover:text-white/80 transition-colors font-medium">
               Inicia sesión aquí
             </Link>
           </p>
         </motion.div>
       </div>
-    </main>
+    </div>
   );
 }
 

@@ -1,7 +1,6 @@
 "use client";
 
 import { HiPlay, HiFilm, HiClock } from "react-icons/hi";
-import { motion } from "framer-motion";
 
 interface MovieStatusProps {
   releaseDate: string;
@@ -16,41 +15,33 @@ export default function MovieStatus({ releaseDate }: MovieStatusProps) {
 
   let status: { text: string; icon: JSX.Element };
   
-  // Si la película se estrena en el futuro
   if (daysDiff > 30) {
     status = {
       text: "Próximamente",
-      icon: <HiClock className="w-4 h-4 sm:w-5 sm:h-5" />,
+      icon: <HiClock className="w-4 h-4" />,
     };
   } else if (daysDiff > 0 && daysDiff <= 30) {
-    // Se estrena en los próximos 30 días
     status = {
       text: "En cines",
-      icon: <HiFilm className="w-4 h-4 sm:w-5 sm:h-5" />,
+      icon: <HiFilm className="w-4 h-4" />,
     };
   } else if (daysDiff <= 0 && daysDiff >= -90) {
-    // Se estrenó hace menos de 90 días (probablemente aún en cines)
     status = {
       text: "En cines",
-      icon: <HiFilm className="w-4 h-4 sm:w-5 sm:h-5" />,
+      icon: <HiFilm className="w-4 h-4" />,
     };
   } else {
-    // Se estrenó hace más de 90 días (ya disponible en streaming)
     status = {
       text: "Disponible",
-      icon: <HiPlay className="w-4 h-4 sm:w-5 sm:h-5" />,
+      icon: <HiPlay className="w-4 h-4" />,
     };
   }
 
   return (
-    <motion.span
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      className="inline-flex items-center gap-1.5 sm:gap-2 text-flame font-medium text-sm sm:text-base md:text-lg"
-    >
+    <span className="inline-flex items-center gap-2 px-4 py-2 border border-white/20 text-white/80 text-sm font-medium">
       <span className="flex-shrink-0">{status.icon}</span>
-      <span className="whitespace-nowrap">{status.text}</span>
-    </motion.span>
+      <span className="whitespace-nowrap uppercase tracking-wide">{status.text}</span>
+    </span>
   );
 }
 

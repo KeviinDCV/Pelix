@@ -1,31 +1,65 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* 
+  PALETA MINIMALISTA OSCURA (DarkFilmHub):
+  1. Fondo Principal: Negro Profundo (Hue 220, Sat 10%, Light 6%)
+  2. Texto/Highlights: Blanco Puro
+  3. Elementos Secundarios: Gris Acero
+*/
+
 :root {
-  --black: #000000;
-  --flame: #cf5c36;
-  --lavender-blush: #eee5e9;
-  --gray: #7c7c7c;
-  --sunset: #efc88b;
+  --background: 220 10% 6%;
+  --foreground: 0 0% 100%;
   
-  --background: var(--black);
-  --foreground: var(--lavender-blush);
+  --card: 220 10% 6%;
+  --card-foreground: 0 0% 100%;
+  
+  --popover: 220 10% 8%;
+  --popover-foreground: 0 0% 100%;
+  
+  --primary: 0 0% 100%;
+  --primary-foreground: 220 10% 6%;
+  
+  --secondary: 220 5% 15%;
+  --secondary-foreground: 0 0% 100%;
+  
+  --muted: 220 5% 15%;
+  --muted-foreground: 220 0% 60%;
+  
+  --accent: 220 5% 20%;
+  --accent-foreground: 0 0% 100%;
+  
+  --destructive: 0 60% 50%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 220 5% 15%;
+  --input: 220 5% 15%;
+  --ring: 0 0% 100%;
+  
+  --radius: 0rem;
 }
 
 @layer base {
+  * {
+    @apply border-border;
+  }
+  
   body {
-    background-color: #000000;
-    color: #eee5e9;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    font-weight: 600;
+    font-family: 'Manrope', sans-serif;
+    @apply tracking-tight font-bold;
   }
 }
 
@@ -34,12 +68,17 @@
     text-wrap: balance;
   }
   
-  .gradient-text {
-    @apply bg-gradient-to-r from-sunset via-flame to-sunset bg-clip-text text-transparent;
+  .font-display {
+    font-family: 'Manrope', sans-serif;
   }
   
-  .card-hover {
-    @apply transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl;
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
 

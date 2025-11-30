@@ -83,74 +83,59 @@ export default function MovieCard({ movie, priority = false }: MovieCardProps) {
 
   const posterUrl = getPosterUrl(movie.poster_path);
   const status = getMovieStatus(movie);
+  const releaseYear = movie.release_date ? new Date(movie.release_date).getFullYear() : "N/A";
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-      whileHover={{ y: -4 }}
-      className="relative"
-    >
-      <Link
-        href={`/movie/${movie.id}`}
-        className="group block bg-black/50 border border-flame/10 rounded-xl overflow-hidden card-hover"
-        onContextMenu={handleContextMenu}
+    <Link href={`/movie/${movie.id}`} className="block" onContextMenu={handleContextMenu}>
+      <motion.div
+        whileHover={{ y: -10 }}
+        className="group relative aspect-[2/3] overflow-hidden bg-secondary/20 cursor-pointer"
       >
-        <div className="relative aspect-[2/3] bg-black/50 overflow-hidden">
-          <Image
-            src={posterUrl}
-            alt={movie.title}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-110"
-            sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, (max-width: 1280px) 20vw, 16vw"
-            priority={priority}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          
-          {/* Botón de favoritos (móvil y desktop) */}
-          {session?.user?.id && (
-            <button
-              onClick={handleFavorite}
-              className="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 p-1.5 sm:p-2 bg-black/80 backdrop-blur-md rounded-full border border-sunset/30 hover:bg-flame/20 transition-all group/fav"
-              aria-label={isFavorite ? "Eliminar de favoritos" : "Agregar a favoritos"}
-            >
-              <HiHeart
-                className={`w-4 h-4 sm:w-5 sm:h-5 transition-all ${
-                  isFavorite
-                    ? "text-flame fill-current"
-                    : "text-gray group-hover/fav:text-flame"
-                }`}
-              />
-            </button>
-          )}
+        <Image
+          src={posterUrl}
+          alt={movie.title}
+          fill
+          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 group-hover:opacity-50"
+          sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 20vw"
+          priority={priority}
+        />
 
-          <div className="absolute top-2 right-2 sm:top-3 sm:right-3 bg-black/80 backdrop-blur-md px-2 py-1 sm:px-3 sm:py-1.5 rounded-full border border-sunset/30">
-            <span className="text-sunset font-bold text-xs sm:text-sm">
-              {movie.vote_average.toFixed(1)}
-            </span>
-          </div>
-        </div>
-        <div className="p-3 sm:p-4 space-y-1.5 sm:space-y-2">
-          <h3 className="font-semibold text-lavenderBlush line-clamp-2 group-hover:text-sunset transition-colors duration-300 text-sm sm:text-base leading-tight">
+        {/* Gradient overlay on hover */}
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+        {/* Botón de favoritos */}
+        {session?.user?.id && (
+          <button
+            onClick={handleFavorite}
+            className="absolute top-3 right-3 z-10 p-2 bg-black/60 backdrop-blur-sm hover:bg-white/20 transition-all"
+            aria-label={isFavorite ? "Eliminar de favoritos" : "Agregar a favoritos"}
+          >
+            <HiHeart
+              className={`w-4 h-4 transition-all ${
+                isFavorite
+                  ? "text-white fill-current"
+                  : "text-white/60 group-hover:text-white"
+              }`}
+            />
+          </button>
+        )}
+
+        {/* Content on hover */}
+        <div className="absolute bottom-0 left-0 w-full p-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500">
+          <span className="text-xs font-medium text-white/60 uppercase tracking-wider mb-1 block">
+            {status}
+          </span>
+          <h3 className="text-xl font-display font-bold text-white leading-tight mb-2">
             {movie.title}
           </h3>
-          <div className="flex items-center justify-between gap-2">
-            <p className="text-xs sm:text-sm text-gray flex-shrink-0">
-              {movie.release_date ? new Date(movie.release_date).getFullYear() : "N/A"}
-            </p>
-            <p className="text-[10px] sm:text-xs text-flame font-medium truncate">{status}</p>
+          <div className="flex items-center gap-3 text-sm text-white/80">
+            <span>{releaseYear}</span>
+            <span className="w-1 h-1 rounded-full bg-white/50" />
+            <span>{movie.vote_average.toFixed(1)}</span>
           </div>
         </div>
-      </Link>
-      
-      {/* Tooltip para clic derecho (solo en desktop) */}
-      {session?.user?.id && (
-        <div className="hidden md:block absolute -bottom-8 left-1/2 -translate-x-1/2 bg-black/90 text-lavenderBlush text-xs px-2 py-1 rounded opacity-0 pointer-events-none transition-opacity duration-200 group-hover:opacity-100 whitespace-nowrap">
-          Clic derecho para {isFavorite ? "eliminar" : "agregar"} favorito
-        </div>
-      )}
-    </motion.div>
+      </motion.div>
+    </Link>
   );
 }
 

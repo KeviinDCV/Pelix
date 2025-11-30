@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { getGenres } from "@/lib/tmdb";
 import GenreCard from "@/components/GenreCard";
 
@@ -6,24 +5,22 @@ export default async function GenresPage() {
   const genres = await getGenres();
 
   return (
-    <main className="min-h-screen bg-black py-8 sm:py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8 sm:mb-12 text-center">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 gradient-text">
-            Categorías
+    <div className="min-h-screen bg-background text-foreground pt-24">
+      <div className="container mx-auto px-6 md:px-12">
+        <div className="mb-12">
+          <h1 className="text-4xl md:text-5xl font-display font-bold text-white mb-2">
+            Géneros
           </h1>
-          <p className="text-gray text-base sm:text-lg px-4">
-            Explora películas por género
-          </p>
+          <p className="text-white/60">Explora películas por categoría.</p>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 pb-20">
           {genres.map((genre, index) => (
             <GenreCard key={genre.id} genre={genre} index={index} />
           ))}
         </div>
       </div>
-    </main>
+    </div>
   );
 }
 

@@ -1,36 +1,52 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Link from "next/link";
+import { HiArrowRight } from "react-icons/hi";
 import type { Movie } from "@/types/tmdb";
 import MovieCard from "./MovieCard";
 
 interface MovieGridProps {
   movies: Movie[];
   title: string;
+  showViewAll?: boolean;
 }
 
-export default function MovieGrid({ movies, title }: MovieGridProps) {
+export default function MovieGrid({ movies, title, showViewAll = false }: MovieGridProps) {
   if (movies.length === 0) {
     return null;
   }
 
   return (
-    <section className="mb-12 sm:mb-16">
-      <div className="flex items-center gap-2 sm:gap-3 mb-6 sm:mb-8">
-        <div className="h-1 w-8 sm:w-12 bg-gradient-to-r from-flame to-sunset rounded-full flex-shrink-0" />
-        <h2 className="text-2xl sm:text-3xl font-bold text-lavenderBlush flex-shrink-0">{title}</h2>
-        <div className="flex-1 h-px bg-gradient-to-r from-flame/30 to-transparent min-w-0" />
+    <section className="py-16">
+      <div className="flex items-end justify-between mb-12">
+        <div>
+          <h2 className="text-3xl font-display font-bold text-white mb-2">{title}</h2>
+          <p className="text-muted-foreground">Descubre las mejores películas.</p>
+        </div>
+        {showViewAll && (
+          <Link
+            href="/genres"
+            className="hidden md:flex items-center gap-2 text-sm font-medium text-white/70 hover:text-white transition-colors group"
+          >
+            VER TODO <HiArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          </Link>
+        )}
       </div>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 md:gap-6"
-      >
-        {movies.map((movie, index) => (
-          <MovieCard key={movie.id} movie={movie} priority={index < 5} />
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+        {movies.slice(0, 8).map((movie, index) => (
+          <motion.div
+            key={movie.id}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.1 }}
+          >
+            <MovieCard movie={movie} priority={index < 4} />
+          </motion.div>
         ))}
-      </motion.div>
+      </div>
     </section>
   );
 }

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { MovieDetails } from "@/types/tmdb";
 import { getMovieDetails, getBackdropUrl, getPosterUrl, getMovieVideos } from "@/lib/tmdb";
 import { notFound } from "next/navigation";
@@ -35,146 +36,162 @@ export default async function MoviePage({ params }: MoviePageProps) {
   const releaseYear = new Date(movie.release_date).getFullYear();
 
   return (
-    <main className="min-h-screen bg-black">
-      {/* Backdrop */}
-      <div className="relative h-[40vh] sm:h-[50vh] md:h-[60vh] lg:h-[70vh] min-h-[300px] sm:min-h-[400px] md:min-h-[500px] overflow-hidden">
-        <Image
-          src={backdropUrl}
-          alt={movie.title}
-          fill
-          className="object-cover"
-          priority
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-transparent" />
-      </div>
+    <div className="min-h-screen bg-background text-foreground pb-20">
+      {/* HERO / BACKDROP */}
+      <div className="relative h-[70vh] w-full overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src={backdropUrl}
+            alt={movie.title}
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/40 to-transparent" />
+        </div>
 
-      {/* Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-24 sm:-mt-32 md:-mt-40 relative z-10 pb-12 sm:pb-20">
-        <div className="flex flex-col md:flex-row gap-6 md:gap-8 lg:gap-10">
-          {/* Poster */}
-          <div className="flex-shrink-0 mx-auto md:mx-0">
-            <div className="relative w-48 h-72 sm:w-56 sm:h-[336px] md:w-64 md:h-96 rounded-xl md:rounded-2xl overflow-hidden shadow-2xl border-2 border-flame/20">
-              <Image
-                src={posterUrl}
-                alt={movie.title}
-                fill
-                className="object-cover"
-                sizes="(max-width: 640px) 192px, (max-width: 768px) 224px, 256px"
+        <div className="container mx-auto px-6 md:px-12 relative z-10 h-full flex items-end pb-12">
+          <div className="grid md:grid-cols-[300px_1fr] gap-12 items-end w-full">
+            {/* POSTER */}
+            <div className="hidden md:block aspect-[2/3] overflow-hidden shadow-2xl shadow-black/50">
+              <Image 
+                src={posterUrl} 
+                alt={movie.title} 
+                width={300}
+                height={450}
+                className="w-full h-full object-cover" 
                 priority
               />
             </div>
-          </div>
 
-          {/* Info */}
-          <div className="flex-1 pb-8 md:pb-12 space-y-4 sm:space-y-5 md:space-y-6">
-            <div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-lavenderBlush mb-4 sm:mb-6 leading-tight">
+            {/* INFO */}
+            <div className="max-w-3xl">
+              <div className="flex items-center gap-4 text-sm font-medium text-white/60 mb-4">
+                <span className="bg-white/10 px-2 py-1 text-white">HD</span>
+                <span>{releaseYear}</span>
+                <span>{movie.runtime} min</span>
+                {movie.genres && movie.genres.length > 0 && (
+                  <span>{movie.genres.map(g => g.name).join(" / ")}</span>
+                )}
+              </div>
+
+              <h1 className="text-4xl md:text-6xl font-display font-bold text-white mb-6 uppercase">
                 {movie.title}
               </h1>
 
-              <div className="flex flex-wrap items-center gap-2 sm:gap-3 md:gap-4 mb-4 sm:mb-6">
-                <div className="flex items-center gap-2 bg-black/60 backdrop-blur-md px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border border-sunset/30">
-                  <span className="text-sunset font-bold text-lg sm:text-xl">
-                    {movie.vote_average.toFixed(1)}
-                  </span>
+              <div className="flex flex-wrap items-center gap-4 mb-8">
+                <Link
+                  href="#streaming"
+                  className="flex items-center gap-3 bg-white text-black px-8 py-3 font-bold hover:bg-white/90 transition-colors"
+                >
+                  VER AHORA
+                </Link>
+                <MovieStatus releaseDate={movie.release_date} />
+              </div>
+
+              <div className="flex items-center gap-6">
+                <div className="flex items-center gap-2">
+                  <span className="text-xl font-bold text-white">{movie.vote_average.toFixed(1)}</span>
+                  <span className="text-white/60">/10</span>
                 </div>
-                <span className="text-gray hidden sm:inline">•</span>
-                <span className="text-lavenderBlush/90 text-sm sm:text-base">{releaseYear}</span>
-                <span className="text-gray hidden sm:inline">•</span>
-                <span className="text-lavenderBlush/90 text-sm sm:text-base">{movie.runtime} min</span>
-                <span className="text-gray hidden sm:inline">•</span>
-                <div className="w-full sm:w-auto">
-                  <MovieStatus releaseDate={movie.release_date} />
+                <div className="h-4 w-px bg-white/20"></div>
+                <div className="text-white/60">
+                  <span className="text-white font-bold">{movie.vote_count.toLocaleString()}</span> votos
                 </div>
-              </div>
-            </div>
-
-            {/* Genres */}
-            {movie.genres && movie.genres.length > 0 && (
-              <div className="flex flex-wrap gap-3">
-                {movie.genres.map((genre) => (
-                  <span
-                    key={genre.id}
-                    className="px-4 py-2 bg-black/50 border border-flame/20 text-lavenderBlush rounded-full text-sm font-medium backdrop-blur-sm"
-                  >
-                    {genre.name}
-                  </span>
-                ))}
-              </div>
-            )}
-
-            {/* Tagline */}
-            {movie.tagline && (
-              <p className="text-lg sm:text-xl text-sunset italic font-light leading-relaxed">
-                "{movie.tagline}"
-              </p>
-            )}
-
-            {/* Overview */}
-            <div>
-              <h2 className="text-xl sm:text-2xl font-semibold text-lavenderBlush mb-3 sm:mb-4">
-                Sinopsis
-              </h2>
-              <p className="text-lavenderBlush/80 leading-relaxed text-base sm:text-lg">
-                {movie.overview}
-              </p>
-            </div>
-
-            {/* Trailer */}
-            {videos && videos.results && videos.results.length > 0 && (
-              <div className="pt-4 sm:pt-6 border-t border-flame/20">
-                <MovieTrailer videos={videos.results} />
-              </div>
-            )}
-
-            {/* Streaming Links */}
-            <div className="pt-4 sm:pt-6 border-t border-flame/20">
-              <h2 className="text-xl sm:text-2xl font-semibold text-lavenderBlush mb-3 sm:mb-4">
-                Ver en Streaming
-              </h2>
-              <StreamingLinks movie={movie} />
-            </div>
-
-            {/* Reviews */}
-            <div className="pt-4 sm:pt-6 border-t border-flame/20">
-              <MovieReviews movieId={movieId} />
-            </div>
-
-            {/* Additional Info */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 pt-4 sm:pt-6 border-t border-flame/20">
-              <div>
-                <span className="text-gray text-xs sm:text-sm uppercase tracking-wide block">Estado</span>
-                <p className="text-lavenderBlush mt-1 font-medium text-sm sm:text-base">{movie.status}</p>
-              </div>
-              <div>
-                <span className="text-gray text-xs sm:text-sm uppercase tracking-wide block">Popularidad</span>
-                <p className="text-lavenderBlush mt-1 font-medium text-sm sm:text-base">
-                  {movie.popularity.toFixed(0)}
-                </p>
-              </div>
-              <div>
-                <span className="text-gray text-xs sm:text-sm uppercase tracking-wide block">Votos</span>
-                <p className="text-lavenderBlush mt-1 font-medium text-sm sm:text-base">
-                  {movie.vote_count.toLocaleString()}
-                </p>
-              </div>
-              <div className="col-span-2 sm:col-span-1 lg:col-span-1">
-                <span className="text-gray text-xs sm:text-sm uppercase tracking-wide block">Fecha de estreno</span>
-                <p className="text-lavenderBlush mt-1 font-medium text-sm sm:text-base">
-                  {new Date(movie.release_date).toLocaleDateString("es-MX", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </main>
+
+      {/* CONTENT */}
+      <div className="container mx-auto px-6 md:px-12 mt-12">
+        <div className="grid lg:grid-cols-[1fr_350px] gap-12">
+          
+          {/* LEFT COLUMN */}
+          <div>
+            {/* Tagline */}
+            {movie.tagline && (
+              <p className="text-lg text-white/50 italic mb-8">"{movie.tagline}"</p>
+            )}
+
+            <h3 className="text-xl font-display font-bold text-white mb-4">Sinopsis</h3>
+            <p className="text-lg text-white/70 leading-relaxed mb-12">
+              {movie.overview}
+            </p>
+
+            {/* Trailer */}
+            {videos && videos.results && videos.results.length > 0 && (
+              <div className="mb-12">
+                <h3 className="text-xl font-display font-bold text-white mb-6">Trailer</h3>
+                <MovieTrailer videos={videos.results} />
+              </div>
+            )}
+
+            {/* Streaming Links */}
+            <div id="streaming" className="mb-12">
+              <h3 className="text-xl font-display font-bold text-white mb-6">Ver en Streaming</h3>
+              <StreamingLinks movie={movie} />
+            </div>
+
+            {/* Reviews */}
+            <div className="mb-12">
+              <MovieReviews movieId={movieId} />
+            </div>
+          </div>
+
+          {/* RIGHT COLUMN (SIDEBAR) */}
+          <div className="space-y-8">
+            <div className="bg-secondary/10 p-6 border border-white/5">
+              <h4 className="font-bold text-white mb-4">Detalles</h4>
+              <div className="space-y-4 text-sm">
+                <div className="flex justify-between border-b border-white/5 pb-2">
+                  <span className="text-white/50">Estado</span>
+                  <span className="text-white">{movie.status}</span>
+                </div>
+                <div className="flex justify-between border-b border-white/5 pb-2">
+                  <span className="text-white/50">Fecha de estreno</span>
+                  <span className="text-white">
+                    {new Date(movie.release_date).toLocaleDateString("es-MX", {
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                    })}
+                  </span>
+                </div>
+                <div className="flex justify-between border-b border-white/5 pb-2">
+                  <span className="text-white/50">Duración</span>
+                  <span className="text-white">{movie.runtime} min</span>
+                </div>
+                <div className="flex justify-between border-b border-white/5 pb-2">
+                  <span className="text-white/50">Popularidad</span>
+                  <span className="text-white">{movie.popularity.toFixed(0)}</span>
+                </div>
+              </div>
+            </div>
+
+            {movie.genres && movie.genres.length > 0 && (
+              <div className="bg-secondary/10 p-6 border border-white/5">
+                <h4 className="font-bold text-white mb-4">Géneros</h4>
+                <div className="flex flex-wrap gap-2">
+                  {movie.genres.map(genre => (
+                    <span 
+                      key={genre.id} 
+                      className="text-xs bg-white/5 text-white/70 px-3 py-1 hover:bg-white/10 cursor-pointer transition-colors"
+                    >
+                      {genre.name}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+        </div>
+      </div>
+    </div>
   );
 }
 

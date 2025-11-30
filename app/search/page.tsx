@@ -1,10 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { useSession } from "next-auth/react";
-import { HiOutlineSearch } from "react-icons/hi";
+import { HiOutlineSearch, HiAdjustments } from "react-icons/hi";
 import MovieCard from "@/components/MovieCard";
 import MovieCardSkeleton from "@/components/MovieCardSkeleton";
 import type { Movie } from "@/types/tmdb";
@@ -34,7 +33,6 @@ export default function SearchPage() {
           const data = await response.json();
           setResults(data.results || []);
           
-          // Guardar en historial si el usuario está autenticado
           if (session?.user?.id && query.trim()) {
             try {
               await fetch("/api/search-history", {
@@ -43,7 +41,6 @@ export default function SearchPage() {
                 body: JSON.stringify({ query: query.trim() }),
               });
             } catch (error) {
-              // Silencioso, no mostrar error si falla el guardado del historial
               console.error("Error al guardar historial:", error);
             }
           }
@@ -56,90 +53,97 @@ export default function SearchPage() {
       } finally {
         setLoading(false);
       }
-    }, 500); // Debounce de 500ms
+    }, 500);
 
     return () => clearTimeout(timeoutId);
   }, [query, session]);
 
   return (
-    <main className="min-h-screen bg-black py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8 sm:mb-12 text-center">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 gradient-text">
-            Buscar en Pelix
-          </h1>
-          <p className="text-gray text-base sm:text-lg px-4">
-            Encuentra tu próxima película favorita
-          </p>
+    <div className="min-h-screen bg-background text-foreground pt-24">
+      <div className="container mx-auto px-6 md:px-12">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div>
+            <h1 className="text-4xl md:text-5xl font-display font-bold text-white mb-2">Buscar</h1>
+            <p className="text-white/60">Encuentra tu próxima película favorita.</p>
+          </div>
+          
+          <div className="flex items-center gap-4 w-full md:w-auto">
+            <div className="relative flex-1 md:w-80">
+              <HiOutlineSearch className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40" />
+              <input 
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Buscar películas..." 
+                className="w-full bg-secondary/10 border border-white/10 py-3 pl-10 pr-4 text-sm text-white placeholder-white/40 focus:outline-none focus:border-white/30 transition-colors"
+                autoFocus
+              />
+              {loading && (
+                <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                </div>
+              )}
+            </div>
+            <button className="p-3 border border-white/10 hover:bg-white/5 text-white/70 hover:text-white transition-colors">
+              <HiAdjustments className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8 sm:mb-12 max-w-2xl mx-auto px-4"
-        >
-          <div className="relative">
-            <HiOutlineSearch className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-5 h-5 sm:w-6 sm:h-6 text-gray" />
-            <input
-              type="text"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              placeholder="Busca por nombre de película..."
-              className="w-full pl-10 sm:pl-12 pr-10 sm:pr-12 py-3 sm:py-4 bg-black/50 border-2 border-flame/20 rounded-xl text-lavenderBlush placeholder-gray focus:outline-none focus:border-sunset focus:ring-2 focus:ring-sunset/20 transition-all duration-300 text-base sm:text-lg backdrop-blur-sm"
-              autoFocus
-            />
-            {loading && (
-              <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                <div className="w-5 h-5 border-2 border-sunset border-t-transparent rounded-full animate-spin" />
-              </div>
-            )}
-          </div>
-        </motion.div>
-
+        {/* Loading State */}
         {loading && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 md:gap-6"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
           >
-            {Array.from({ length: 10 }).map((_, i) => (
+            {Array.from({ length: 8 }).map((_, i) => (
               <MovieCardSkeleton key={i} />
             ))}
           </motion.div>
         )}
 
+        {/* No Results */}
         {!loading && hasSearched && results.length === 0 && (
-          <div className="text-center py-12 sm:py-16 px-4">
-            <p className="text-gray text-lg sm:text-xl mb-2">No se encontraron películas</p>
-            <p className="text-gray/70 text-sm sm:text-base">Intenta con otro término de búsqueda</p>
+          <div className="text-center py-24">
+            <p className="text-white/60 text-lg mb-2">No se encontraron películas</p>
+            <p className="text-white/40 text-sm">Intenta con otro término de búsqueda</p>
           </div>
         )}
 
+        {/* Results */}
         {!loading && results.length > 0 && (
           <div>
-            <div className="flex items-center gap-2 sm:gap-3 mb-6 sm:mb-8 px-4 sm:px-0">
-              <div className="h-1 w-8 sm:w-12 bg-gradient-to-r from-flame to-sunset rounded-full flex-shrink-0" />
-              <h2 className="text-xl sm:text-2xl font-bold text-lavenderBlush flex-shrink-0">
-                Resultados ({results.length})
+            <div className="flex items-center gap-4 mb-8">
+              <h2 className="text-xl font-display font-bold text-white">
+                Resultados
               </h2>
-              <div className="flex-1 h-px bg-gradient-to-r from-flame/30 to-transparent min-w-0" />
+              <span className="text-sm text-white/40">({results.length})</span>
             </div>
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 md:gap-6"
-            >
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 pb-20">
               {results.map((movie, index) => (
-                <MovieCard
+                <motion.div
                   key={movie.id}
-                  movie={movie}
-                  priority={index < 5}
-                />
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                >
+                  <MovieCard movie={movie} priority={index < 4} />
+                </motion.div>
               ))}
-            </motion.div>
+            </div>
+          </div>
+        )}
+
+        {/* Empty State */}
+        {!loading && !hasSearched && (
+          <div className="text-center py-24">
+            <HiOutlineSearch className="w-16 h-16 text-white/20 mx-auto mb-6" />
+            <p className="text-white/40 text-lg">Escribe para buscar películas</p>
           </div>
         )}
       </div>
-    </main>
+    </div>
   );
 }

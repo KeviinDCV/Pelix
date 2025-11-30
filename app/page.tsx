@@ -1,6 +1,7 @@
 import MovieGrid from "@/components/MovieGrid";
 import InfoBanner from "@/components/InfoBanner";
 import HeroBanner from "@/components/HeroBanner";
+import Link from "next/link";
 import {
   getNowPlayingMovies,
   getPopularMovies,
@@ -8,37 +9,45 @@ import {
 } from "@/lib/tmdb";
 
 export default async function HomePage() {
-  // Fetch todas las secciones en paralelo
   const [nowPlaying, popular, upcoming] = await Promise.all([
     getNowPlayingMovies(),
     getPopularMovies(),
     getUpcomingMovies(),
   ]);
 
-  // Combinar películas en cines y próximas para el hero banner
   const featuredMovies = [...nowPlaying.slice(0, 3), ...upcoming.slice(0, 2)];
 
   return (
-    <>
+    <div className="min-h-screen bg-background text-foreground">
       <InfoBanner />
       <HeroBanner movies={featuredMovies} />
-      <main className="flex-1 bg-black py-8 sm:py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-12 sm:mb-16 text-center">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 gradient-text">
-              Descubre Pelix
-            </h1>
-            <p className="text-base sm:text-lg text-gray max-w-2xl mx-auto px-4">
-              Explora las películas más populares, en cines y próximos estrenos
-            </p>
-          </div>
 
-          <MovieGrid movies={nowPlaying} title="En Cines" />
-          <MovieGrid movies={popular} title="Más Populares" />
-          <MovieGrid movies={upcoming} title="Próximamente" />
-        </div>
+      {/* Secciones de películas */}
+      <main className="container mx-auto px-6 md:px-12">
+        <MovieGrid movies={nowPlaying} title="En Cartelera" showViewAll />
+        <MovieGrid movies={popular} title="Tendencias" showViewAll />
+        <MovieGrid movies={upcoming} title="Próximamente" showViewAll />
       </main>
-    </>
+
+      {/* Sección de categorías estilo DarkFilmHub */}
+      <section className="py-12 border-t border-white/5">
+        <div className="container mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {["DRAMA", "SCI-FI", "ACCIÓN", "TERROR"].map((cat) => (
+              <Link
+                key={cat}
+                href="/genres"
+                className="aspect-video border border-white/10 flex items-center justify-center hover:bg-white/5 transition-colors cursor-pointer group"
+              >
+                <span className="font-display font-bold text-xl tracking-widest text-white/40 group-hover:text-white transition-colors">
+                  {cat}
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
 

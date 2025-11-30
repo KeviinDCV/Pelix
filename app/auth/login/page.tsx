@@ -40,29 +40,29 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="flex-1 bg-black pt-8 sm:pt-12 md:pt-16 pb-6 sm:pb-8 md:pb-12 flex items-center justify-center px-4 sm:px-6">
+    <div className="min-h-screen bg-background flex items-center justify-center px-6">
       <div className="w-full max-w-md">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-black/50 border border-flame/20 rounded-xl sm:rounded-2xl p-4 sm:p-5 md:p-6 backdrop-blur-sm"
+          className="bg-secondary/10 border border-white/10 p-8"
         >
-          <div className="mb-4 sm:mb-5">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold gradient-text mb-2 sm:mb-3 text-center">
-              Iniciar Sesión
+          <div className="mb-8 text-center">
+            <h1 className="text-3xl font-display font-bold text-white mb-2">
+              INICIAR SESIÓN
             </h1>
-            <p className="text-gray text-center text-sm sm:text-base">
-              Ingresa a tu cuenta de Pelix
+            <p className="text-white/60 text-sm">
+              Ingresa a tu cuenta de PELIX
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label htmlFor="email" className="block text-lavenderBlush mb-2 text-xs sm:text-sm font-medium">
+              <label htmlFor="email" className="block text-white/80 mb-2 text-sm font-medium">
                 Email
               </label>
               <div className="relative">
-                <HiMail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray" />
+                <HiMail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
                 <input
                   id="email"
                   type="email"
@@ -70,18 +70,18 @@ export default function LoginPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   autoComplete="email"
-                  className="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 text-sm sm:text-base bg-black/50 border border-flame/20 rounded-lg text-lavenderBlush placeholder-gray focus:outline-none focus:border-sunset focus:ring-2 focus:ring-sunset/20 transition-all"
+                  className="w-full pl-10 pr-4 py-3 bg-secondary/20 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:border-white/30 transition-colors"
                   placeholder="tu@email.com"
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-lavenderBlush mb-2 text-xs sm:text-sm font-medium">
+              <label htmlFor="password" className="block text-white/80 mb-2 text-sm font-medium">
                 Contraseña
               </label>
               <div className="relative">
-                <HiLockClosed className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 text-gray" />
+                <HiLockClosed className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
                 <input
                   id="password"
                   type="password"
@@ -89,7 +89,7 @@ export default function LoginPage() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   autoComplete="current-password"
-                  className="w-full pl-9 sm:pl-10 pr-4 py-2.5 sm:py-3 text-sm sm:text-base bg-black/50 border border-flame/20 rounded-lg text-lavenderBlush placeholder-gray focus:outline-none focus:border-sunset focus:ring-2 focus:ring-sunset/20 transition-all"
+                  className="w-full pl-10 pr-4 py-3 bg-secondary/20 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:border-white/30 transition-colors"
                   placeholder="••••••••"
                 />
               </div>
@@ -98,21 +98,21 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-2.5 sm:py-3 text-sm sm:text-base bg-gradient-to-r from-flame to-sunset text-black font-semibold rounded-lg hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed mt-6 sm:mt-8"
+              className="w-full py-4 bg-white text-black font-medium hover:bg-white/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? "Iniciando sesión..." : "Iniciar Sesión"}
+              {loading ? "INICIANDO..." : "ENTRAR"}
             </button>
           </form>
 
-          <p className="text-gray text-center mt-5 sm:mt-6 text-xs sm:text-sm">
+          <p className="text-white/60 text-center mt-6 text-sm">
             ¿No tienes una cuenta?{" "}
-            <Link href="/auth/register" className="text-sunset hover:text-flame transition-colors font-medium">
+            <Link href="/auth/register" className="text-white hover:text-white/80 transition-colors font-medium">
               Regístrate aquí
             </Link>
           </p>
         </motion.div>
       </div>
-    </main>
+    </div>
   );
 }
 

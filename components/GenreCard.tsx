@@ -15,18 +15,14 @@ export default function GenreCard({ genre, index }: GenreCardProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05 }}
-      whileHover={{ y: -4 }}
     >
       <Link
         href={`/genres/${genre.id}`}
-        className="group relative bg-black/50 border-2 border-flame/20 rounded-lg sm:rounded-xl p-4 sm:p-5 md:p-6 hover:border-sunset transition-all duration-300 card-hover overflow-hidden block h-20 sm:h-24 md:h-28 flex items-center justify-center"
+        className="group aspect-video border border-white/10 flex items-center justify-center hover:bg-white/5 transition-colors cursor-pointer"
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-flame/10 via-transparent to-sunset/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        <div className="relative z-10 w-full">
-          <h3 className="text-base sm:text-lg md:text-xl font-bold text-lavenderBlush group-hover:text-sunset transition-colors duration-300 text-center break-words">
-            {genre.name}
-          </h3>
-        </div>
+        <span className="font-display font-bold text-lg md:text-xl tracking-widest text-white/40 group-hover:text-white transition-colors uppercase">
+          {genre.name}
+        </span>
       </Link>
     </motion.div>
   );
